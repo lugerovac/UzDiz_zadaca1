@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lugerovac_zadaca_1", "lugerovac_zadaca_1\lugerovac_zadaca_1.csproj", "{A2F36226-F09D-4F06-9826-79CA20474D4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lugerovac__zadaca_1_lib", "lugerovac__zadaca_1_lib\lugerovac__zadaca_1_lib.csproj", "{83B15C12-CCBE-4DD6-AD0B-FFED9DA852EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "TestModule\TestModule.csproj", "{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2F36226-F09D-4F06-9826-79CA20474D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2F36226-F09D-4F06-9826-79CA20474D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2F36226-F09D-4F06-9826-79CA20474D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2F36226-F09D-4F06-9826-79CA20474D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B15C12-CCBE-4DD6-AD0B-FFED9DA852EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B15C12-CCBE-4DD6-AD0B-FFED9DA852EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B15C12-CCBE-4DD6-AD0B-FFED9DA852EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B15C12-CCBE-4DD6-AD0B-FFED9DA852EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
