@@ -16,16 +16,18 @@ namespace lugerovac__zadaca_1_lib
         /// <returns>Sortirana lista modula</returns>
         public static List<IFotoCompetitionModule> GetModules(string moduleFolder)
         {
+            //Load the modules
             List<string> listOfFiles = new List<string>();
-            IEnumerable<IFotoCompetitionModule> listOfModulesEnum;
             List<IFotoCompetitionModule> listOfModules = new List<IFotoCompetitionModule>();
-
             string[] files = Directory.GetFiles(moduleFolder);
             foreach (string file in files)
             {
+                if (!file.EndsWith(".dll"))
+                    continue;
+
                 var moduleAssembly = System.Reflection.Assembly.LoadFrom(file);
                 var moduleTypes = moduleAssembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IFotoCompetitionModule)));
-                listOfModulesEnum = moduleTypes.Select(type =>
+                IEnumerable<IFotoCompetitionModule> listOfModulesEnum = moduleTypes.Select(type =>
                 {
                     return (IFotoCompetitionModule)Activator.CreateInstance(type);
                 });
@@ -36,6 +38,7 @@ namespace lugerovac__zadaca_1_lib
                 }
             }
             
+            //Sort the modules
             List<IFotoCompetitionModule> listOfModulestoReturn = new List<IFotoCompetitionModule>();
             while(listOfModules.Count > 0)
             {

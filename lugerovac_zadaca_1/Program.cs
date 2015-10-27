@@ -12,76 +12,62 @@ namespace lugerovac_zadaca_1
     {
         static void Main(string[] args)
         {
-            string directoryLocation = GetDirectory(Directory.GetCurrentDirectory(), 0);
-            if(string.Equals(directoryLocation, "ERROR"))
+            MainFacade facade = new MainFacade();
+            if(!facade.LoadModules())
             {
-                Console.WriteLine("Ne može se pronaći direktorij s modulima!");
+                Console.WriteLine("Aplikacija se terminira!");
                 Console.ReadLine();
                 return;
             }
-
-            List<IFotoCompetitionModule> listOfModules = FotoCompetitionModuleLoader.GetModules(directoryLocation);
-            if(listOfModules.Count > 0)
-                RunModules(listOfModules);
-            else
-            {
-                Console.WriteLine("No modules exist!");
-                Console.ReadLine();
-                return;
-            }
+            facade.RunAllModules();
 
             Console.ReadLine();
             return;
         }  //Main
+    } //class Program
+
+
+    class MainFacade
+    {
+        List<IFotoCompetitionModule> listOfModules;
 
         /// <summary>
-        /// Rukuje učitanim modulima
+        /// Učitava module iz mape Moduli
         /// </summary>
-        /// <param name="listOfModules">Lista učitanih modula</param>
-        static void RunModules(List<IFotoCompetitionModule> listOfModules)
+        /// <returns>True ako su moduli učitani, False ako nisu</returns>
+        public bool LoadModules()
         {
-            foreach(IFotoCompetitionModule module in listOfModules)
+            string directoryLocation = DirectoryLocator.GetDirectory("Modules", Directory.GetCurrentDirectory(), 0, 3);
+            if (string.Equals(directoryLocation, "ERROR"))
+            {
+                Console.WriteLine("Ne može se pronaći direktorij s modulima!");
+                return false;
+            }
+
+            listOfModules = FotoCompetitionModuleLoader.GetModules(directoryLocation);
+            Console.WriteLine(listOfModules.Count.ToString() + " modules have been loaded");
+            return true;
+        }
+
+        /// <summary>
+        /// Pokreće sve učitane module
+        /// </summary>
+        /// <returns>True ako je sve u redu, False ako moduli ne postoje ili je došlo do pogreške</returns>
+        public bool RunAllModules()
+        {
+            if (!(listOfModules.Count > 0))
+            { 
+                Console.WriteLine("No modules exist!");
+                Console.ReadLine();
+                return false;
+            }
+
+            foreach (IFotoCompetitionModule module in listOfModules)
             {
                 module.Run();
             }
-        }  //RunModules
 
-        /// <summary>
-        /// Ova funkcija vraće nam putanju do direktorija Module. 
-        /// Ukoliko ju ne nađe, rekurzivno ju traži do maksimalno 3 koraka
-        /// </summary>
-        /// <param name="directory">Trenutni direktorij koji se provjerava</param>
-        /// <param name="step">Korak rekurzije</param>
-        /// <returns>Putanju do male Modules ili pogrešku</returns>
-        static string GetDirectory(string directory, int step)
-        {
-            if(Directory.Exists(directory+"\\Modules"))
-            {
-                return directory + "\\Modules";
-            }
-            else if(step == 2)
-            {
-                return "ERROR";
-            }
-            else
-            {
-                char delimiter = '\\';
-                string[] directories = directory.Split(delimiter);
-
-                string newDirectory = "";
-                string lastDir = "";
-                foreach(string dir in directories)
-                {
-                    if (lastDir.Length != 0)
-                    {
-                        if (newDirectory.Length != 0)
-                            newDirectory += "\\";
-                        newDirectory += lastDir;
-                    }
-                    lastDir = dir;
-                }
-                return GetDirectory(newDirectory, step+1);
-            }
-        }  //GetDirectory
+            return true;
+        }
     }
 }
