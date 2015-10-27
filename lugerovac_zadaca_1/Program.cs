@@ -17,14 +17,12 @@ namespace lugerovac_zadaca_1
             if(!facade.HandleArguments(args))
             {
                 Console.WriteLine("Aplikacija se terminira!");
-                Console.ReadLine();
                 return;
             }
 
             if(!facade.LoadModules())
             {
                 Console.WriteLine("Aplikacija se terminira!");
-                Console.ReadLine();
                 return;
             }
             facade.RunAllModules();
@@ -119,9 +117,9 @@ namespace lugerovac_zadaca_1
 
                 #region  Učitaj maksimalni broj tema
                 int maxThemeNumber = Int32.Parse(args[1]);
-                if(maxThemeNumber <= 0)
+                if(maxThemeNumber <= 0 || maxThemeNumber > 10)
                 {
-                    Console.WriteLine("Maksimalni broj tema mora biti veći od 0!");
+                    Console.WriteLine("Maksimalni broj tema mora biti u rangu 1-10!");
                     return false;
                 }
                 arguments.AddArgument("MaxThemeNumber", "int", maxThemeNumber, true);
@@ -129,9 +127,9 @@ namespace lugerovac_zadaca_1
 
                 #region Učitaj maksimalni broj tema po natjecatelju
                 int maxThemeNumberPerCompetitor = Int32.Parse(args[2]);
-                if (maxThemeNumberPerCompetitor <= 0)
+                if (maxThemeNumberPerCompetitor <= 0 || maxThemeNumberPerCompetitor > maxThemeNumber)
                 {
-                    Console.WriteLine("Maksimalni broj tema po natjecatelju mora biti veći od 0!");
+                    Console.WriteLine("Maksimalni broj tema po natjecatelju mora biti veći od 0 i manji ili jedna maksimalnom broju tema!");
                     return false;
                 }
                 arguments.AddArgument("MaxThemeNumberPerCompetitor", "int", maxThemeNumberPerCompetitor, true);
@@ -139,9 +137,9 @@ namespace lugerovac_zadaca_1
 
                 #region  Učitaj maksimalni broj kategorija po natjecatelju
                 int maxCategoryNumberPerCompetitor = Int32.Parse(args[3]);
-                if (maxCategoryNumberPerCompetitor <= 0)
+                if (maxCategoryNumberPerCompetitor <= 0 || maxCategoryNumberPerCompetitor > 3)
                 {
-                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti veći od 0!");
+                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti u rangu 1-3!");
                     return false;
                 }
                 arguments.AddArgument("MaxCategoryNumberPerCompetitor", "int", maxCategoryNumberPerCompetitor, true);
@@ -149,9 +147,9 @@ namespace lugerovac_zadaca_1
 
                 #region  Učitaj maksimalni broj natjecatelja
                 int maxCompetitorNumber = Int32.Parse(args[4]);
-                if (maxCompetitorNumber <= 0)
+                if (maxCompetitorNumber < 0)
                 {
-                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti veći od 0!");
+                    Console.WriteLine("Maksimalni broj natjecatelja ne smije biti manji od 0");
                     return false;
                 }
                 arguments.AddArgument("MaxCompetitorNumber", "int", maxCompetitorNumber, true);
