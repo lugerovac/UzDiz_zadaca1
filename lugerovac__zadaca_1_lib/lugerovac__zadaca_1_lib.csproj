@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentHandler.cs" />
+    <Compile Include="ArgumentObject.cs" />
     <Compile Include="DirectoryLocator.cs" />
     <Compile Include="FotoCompetitionModuleLoader.cs" />
     <Compile Include="IFotoCompetitionModule.cs" />

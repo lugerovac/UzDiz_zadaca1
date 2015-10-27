@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lugerovac__zadaca_1_lib", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule", "TestModule\TestModule.csproj", "{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestModule2", "TestModule2\TestModule2.csproj", "{E3FDC5EC-398A-497E-A883-FB4C95A987FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B9885BB-26F5-4F1B-AD9E-074F5612EB99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FDC5EC-398A-497E-A883-FB4C95A987FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FDC5EC-398A-497E-A883-FB4C95A987FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FDC5EC-398A-497E-A883-FB4C95A987FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FDC5EC-398A-497E-A883-FB4C95A987FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,11 +8,19 @@ using System.Threading.Tasks;
 
 namespace lugerovac_zadaca_1
 {
+    #region MainApp
     class Program
     {
         static void Main(string[] args)
         {
             MainFacade facade = new MainFacade();
+            if(!facade.HandleArguments(args))
+            {
+                Console.WriteLine("Aplikacija se terminira!");
+                Console.ReadLine();
+                return;
+            }
+
             if(!facade.LoadModules())
             {
                 Console.WriteLine("Aplikacija se terminira!");
@@ -20,16 +28,24 @@ namespace lugerovac_zadaca_1
                 return;
             }
             facade.RunAllModules();
-
-            Console.ReadLine();
-            return;
         }  //Main
     } //class Program
+    #endregion
 
-
+    #region Facade
     class MainFacade
     {
         List<IFotoCompetitionModule> listOfModules;
+
+        /// <summary>
+        /// Ova funkcija učitava argumente iz komandne linije
+        /// </summary>
+        /// <param name="args">Polje argumenata</param>
+        /// <returns>True ako je sve dobro učitano, inače False</returns>
+        public bool HandleArguments(string[] args)
+        {
+            return ArgReader.ReadArgs(args);
+        }
 
         /// <summary>
         /// Učitava module iz mape Moduli
@@ -65,6 +81,106 @@ namespace lugerovac_zadaca_1
             foreach (IFotoCompetitionModule module in listOfModules)
             {
                 module.Run();
+            }
+
+            return true;
+        }
+    }
+    #endregion
+
+    static class ArgReader
+    {
+        /// <summary>
+        /// Ova funkcija učitava argumente iz komandne linije
+        /// </summary>
+        /// <param name="args">Polje argumenata</param>
+        /// <returns>True ako je sve dobro učitano, inače False</returns>
+        public static bool ReadArgs(string[] args)
+        {
+            ArgumentHandler arguments = ArgumentHandler.GetInstance();
+
+            try
+            {
+                if(args.Length < 8)
+                {
+                    Console.WriteLine("Nisu upisani svi argumenti!");
+                    return false;
+                }
+
+                #region  Učitaj generator slučajnog broja
+                int randomSeed = Int32.Parse(args[0]);
+                if (randomSeed < 100)
+                {
+                    Console.WriteLine("Generator slučajnog broja mora imati bar 3 znamenke!");
+                    return false;
+                }
+                arguments.AddArgument("RandomSeed", "int", randomSeed, true);
+                #endregion
+
+                #region  Učitaj maksimalni broj tema
+                int maxThemeNumber = Int32.Parse(args[1]);
+                if(maxThemeNumber <= 0)
+                {
+                    Console.WriteLine("Maksimalni broj tema mora biti veći od 0!");
+                    return false;
+                }
+                arguments.AddArgument("MaxThemeNumber", "int", maxThemeNumber, true);
+                #endregion
+
+                #region Učitaj maksimalni broj tema po natjecatelju
+                int maxThemeNumberPerCompetitor = Int32.Parse(args[2]);
+                if (maxThemeNumberPerCompetitor <= 0)
+                {
+                    Console.WriteLine("Maksimalni broj tema po natjecatelju mora biti veći od 0!");
+                    return false;
+                }
+                arguments.AddArgument("MaxThemeNumberPerCompetitor", "int", maxThemeNumberPerCompetitor, true);
+                #endregion
+
+                #region  Učitaj maksimalni broj kategorija po natjecatelju
+                int maxCategoryNumberPerCompetitor = Int32.Parse(args[3]);
+                if (maxCategoryNumberPerCompetitor <= 0)
+                {
+                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti veći od 0!");
+                    return false;
+                }
+                arguments.AddArgument("MaxCategoryNumberPerCompetitor", "int", maxCategoryNumberPerCompetitor, true);
+                #endregion
+
+                #region  Učitaj maksimalni broj natjecatelja
+                int maxCompetitorNumber = Int32.Parse(args[4]);
+                if (maxCompetitorNumber <= 0)
+                {
+                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti veći od 0!");
+                    return false;
+                }
+                arguments.AddArgument("MaxCompetitorNumber", "int", maxCompetitorNumber, true);
+                #endregion
+
+                #region  Učitaj broj članova žiria
+                int juryNumber = Int32.Parse(args[5]);
+                if (maxCompetitorNumber <= 0)
+                {
+                    Console.WriteLine("Maksimalni broj kategorija po natjecatelju mora biti veći od 0!");
+                    return false;
+                }
+                arguments.AddArgument("JuryNumber", "int", juryNumber, true);
+                #endregion
+
+                #region  Učitaj naziv klase bodovanja
+                string scoringClass = args[6];
+                arguments.AddArgument("ScoringClass", "string", scoringClass, true);
+                #endregion
+
+                #region učitaj naziv datoteke u koju se spremaju svi rezultati i tablice bodova
+                string resultFile = args[7];
+                arguments.AddArgument("ResultFile", "string", resultFile, true);
+                #endregion
+            }
+            catch
+            {
+                Console.WriteLine("Došlo je do nepoznate pogreške");
+                return false;
             }
 
             return true;
