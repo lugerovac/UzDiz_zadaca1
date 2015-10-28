@@ -8,7 +8,6 @@ namespace lugerovac__zadaca_1_lib
 {
     public class Photo
     {
-        private bool existence;
         private bool disqualified;
 
         private float aperture;
@@ -27,7 +26,6 @@ namespace lugerovac__zadaca_1_lib
 
         public Photo()
         {
-            existence = false;
             disqualified = true;
         }
 
@@ -35,7 +33,6 @@ namespace lugerovac__zadaca_1_lib
         {
             Aperture = photo.Aperture;
             Exposure = photo.Exposure;
-            existence = photo.Exists();
             disqualified = photo.IsDisqualified();
         }
 
@@ -44,22 +41,11 @@ namespace lugerovac__zadaca_1_lib
             Create(aperture, exposure);
         }
 
-        public bool Exists()
-        {
-            return existence;
-        }
-
         public void Create(float aperture, float exposure)
         {
             Aperture = aperture;
             Exposure = exposure;
-            existence = true;
             disqualified = false;
-        }
-
-        public void Destroy()
-        {
-            existence = false;
         }
 
         public void Disqualify()
