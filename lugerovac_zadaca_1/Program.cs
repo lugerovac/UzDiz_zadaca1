@@ -13,6 +13,7 @@ namespace lugerovac_zadaca_1
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
             MainFacade facade = new MainFacade();
             if(!facade.HandleArguments(args))
             {
@@ -71,7 +72,7 @@ namespace lugerovac_zadaca_1
         {
             if (!(listOfModules.Count > 0))
             { 
-                Console.WriteLine("No modules exist!");
+                Console.WriteLine("Ne postoji niti jedan modul!");
                 Console.ReadLine();
                 return false;
             }
