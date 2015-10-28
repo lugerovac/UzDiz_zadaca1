@@ -58,6 +58,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Modules\CompetitionGenerator.dll" />
+    <Content Include="Person Names\Name List 1.txt" />
+    <Content Include="Person Surnames\Surname List 1.txt" />
+    <Content Include="Themes\Default List.txt" />
+    <Content Include="Themes\Dodatne teme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
