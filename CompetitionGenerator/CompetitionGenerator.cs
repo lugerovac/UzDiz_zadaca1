@@ -81,6 +81,7 @@ namespace CompetitionGenerator
 
             #region Učitavanje kandidata za teme
             List<Theme> listOfCandidates = new List<Theme>();
+            List<string> listOfThemeNames = new List<string>();
             string[] files = Directory.GetFiles(directoryLocation);
 
             foreach (string file in files)
@@ -90,8 +91,12 @@ namespace CompetitionGenerator
 
                 foreach(string line in lines)
                 {
+                    if (listOfThemeNames.Contains(line) || string.Equals(line, ""))
+                        continue;
+
                     Theme newTheme = new Theme(line);
                     listOfCandidates.Add(newTheme);
+                    listOfThemeNames.Add(line);
                 }
             }
             #endregion
@@ -157,7 +162,7 @@ namespace CompetitionGenerator
                 foreach (string line in lines)
                 {
                     string name = line;
-                    if (listOfNames.Contains(name))
+                    if (listOfNames.Contains(name) || string.Equals(name, ""))
                         continue;
                     listOfNames.Add(name);
                 }
@@ -173,7 +178,7 @@ namespace CompetitionGenerator
                 foreach (string line in lines)
                 {
                     string surname = line;
-                    if (listOfSurnames.Contains(surname))
+                    if (listOfSurnames.Contains(surname) || string.Equals(surname, ""))
                         continue;
                     listOfSurnames.Add(surname);
                 }
