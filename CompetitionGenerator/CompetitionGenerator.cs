@@ -56,10 +56,44 @@ namespace CompetitionGenerator
             int numberOfCompetitors = rnd.GetNumber(0, maxNumberOfCompetitors);
             Console.WriteLine("\nBroj natjecatelja: " + numberOfCompetitors);
 
-            List<Competitor> listOfComptitors = GenerateCompetitors(numberOfCompetitors);
+            List<Competitor> listOfCompetitors = GenerateCompetitors(numberOfCompetitors);
             Console.WriteLine("\nNatjecatelji:");
-            foreach(Competitor competitor in listOfComptitors)
+            foreach(Competitor competitor in listOfCompetitors)
                 Console.WriteLine(competitor.Name);
+            #endregion
+
+            #region Generiranje prijava
+            int maxThemeNumberPerCompetitor = (int)arguments.GetArgument("MaxThemeNumberPerCompetitor");
+            int maxCategoryNumberPerCompetitor = (int)arguments.GetArgument("MaxCategoryNumberPerCompetitor");
+            Console.WriteLine("\nPrijave natjecatelja:");
+            foreach(Competitor competitor in listOfCompetitors)
+            {
+                Console.WriteLine("\nNatjecatelj: " + competitor.Name);
+                int numberOfRegistratedThemes = rnd.GetNumber(1, maxThemeNumberPerCompetitor);
+                List<Theme> listOfRegistratedThemes = new List<Theme>();
+                Console.WriteLine("Registrirane teme:");
+                while(listOfRegistratedThemes.Count < numberOfRegistratedThemes)
+                {
+                    int themeIndex = rnd.GetNumber(0, numberOfThemes);
+                    Theme registratedTheme = listOfThemes[themeIndex];
+                    if (listOfRegistratedThemes.Contains(registratedTheme))
+                        continue;
+                    listOfRegistratedThemes.Add(registratedTheme);
+                    Console.WriteLine(registratedTheme.Name);
+
+                    int numberOfRegistratedCategories = rnd.GetNumber(1, maxCategoryNumberPerCompetitor);
+                    List<string> listOfregistratedCategories = new List<string>();
+                    while(listOfregistratedCategories.Count < numberOfRegistratedCategories)
+                    {
+                        int categoryIndex = rnd.GetNumber(0, numberOfCategories);
+                        string registratedCategory = listOfCategories[categoryIndex];
+                        if (listOfregistratedCategories.Contains(registratedCategory))
+                            continue;
+                        listOfregistratedCategories.Add(registratedCategory);
+                        Console.WriteLine("Kategorija: " + registratedCategory);
+                    }
+                }
+            }
             #endregion
         }
 
@@ -116,6 +150,11 @@ namespace CompetitionGenerator
             return resultList;
         }
 
+        /// <summary>
+        /// Funkcija koja određuje u kojim kategorijama se može natjecati
+        /// </summary>
+        /// <param name="numberOfCategories">Broj kategorija</param>
+        /// <returns>Lista kategorija</returns>
         private List<String> GenerateCategories(int numberOfCategories)
         {
             #region Generiraj kandidate
@@ -140,6 +179,11 @@ namespace CompetitionGenerator
             return resultList;
         }
 
+        /// <summary>
+        /// Funkcija koja generira natjecatelje,e zajedno sn jihovim imenima i prezimenima
+        /// </summary>
+        /// <param name="numberOfCompetitors">Broj natjecatelja</param>
+        /// <returns>Lista natjecatelja</returns>
         private List<Competitor> GenerateCompetitors(int numberOfCompetitors)
         {
             #region Pronalazaz direktorija s imenima i prezimenima

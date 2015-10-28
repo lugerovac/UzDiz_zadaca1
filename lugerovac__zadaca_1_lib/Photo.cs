@@ -8,8 +8,6 @@ namespace lugerovac__zadaca_1_lib
 {
     public class Photo
     {
-        private bool disqualified;
-
         private float aperture;
         public float Aperture
         {
@@ -26,14 +24,12 @@ namespace lugerovac__zadaca_1_lib
 
         public Photo()
         {
-            disqualified = true;
         }
 
         public Photo(Photo photo)
         {
             Aperture = photo.Aperture;
             Exposure = photo.Exposure;
-            disqualified = photo.IsDisqualified();
         }
 
         public Photo(float aperture, float exposure)
@@ -45,17 +41,6 @@ namespace lugerovac__zadaca_1_lib
         {
             Aperture = aperture;
             Exposure = exposure;
-            disqualified = false;
-        }
-
-        public void Disqualify()
-        {
-            disqualified = true;
-        }
-
-        public bool IsDisqualified()
-        {
-            return disqualified;
         }
     }
 }
