@@ -66,39 +66,11 @@ namespace CompetitionGenerator
             #region Generiranje prijava
             int maxThemeNumberPerCompetitor = (int)arguments.GetArgument("MaxThemeNumberPerCompetitor");
             int maxCategoryNumberPerCompetitor = (int)arguments.GetArgument("MaxCategoryNumberPerCompetitor");
-            Console.WriteLine("\nPrijave natjecatelja:");
-            foreach(Competitor competitor in listOfCompetitors)
-            {
-                Console.WriteLine("\nNatjecatelj: " + competitor.Name);
-                int numberOfRegistratedThemes = rnd.GetNumber(1, maxThemeNumberPerCompetitor);
-                List<Theme> listOfRegistratedThemes = new List<Theme>();
-                Console.WriteLine("Registrirane teme:");
-                while(listOfRegistratedThemes.Count < numberOfRegistratedThemes)
-                {
-                    int themeIndex = rnd.GetNumber(0, numberOfThemes);
-                    Theme registratedTheme = listOfThemes[themeIndex];
-                    if (listOfRegistratedThemes.Contains(registratedTheme))
-                        continue;
-                    listOfRegistratedThemes.Add(registratedTheme);
-                    Console.WriteLine(registratedTheme.Name);
-
-                    int numberOfRegistratedCategories = rnd.GetNumber(1, maxCategoryNumberPerCompetitor);
-                    List<string> listOfregistratedCategories = new List<string>();
-                    while(listOfregistratedCategories.Count < numberOfRegistratedCategories)
-                    {
-                        int categoryIndex = rnd.GetNumber(0, numberOfCategories);
-                        string registratedCategory = listOfCategories[categoryIndex];
-                        if (listOfregistratedCategories.Contains(registratedCategory))
-                            continue;
-                        listOfregistratedCategories.Add(registratedCategory);
-                        Console.WriteLine("Kategorija: " + registratedCategory);
-
-                        IFotoaparat camera = GetCamera(registratedCategory);
-                        Console.WriteLine(camera.GetModelName());
-                    }
-                }
-            }
+            List<Registration> listOfRegistrations = GenerateRegistrations(listOfCompetitors, maxThemeNumberPerCompetitor, maxCategoryNumberPerCompetitor, numberOfThemes, listOfThemes, numberOfCategories, listOfCategories);
             #endregion
+
+            Competition competition = Competition.GetInstance();
+            competition.UploadCompetitionData(listOfRegistrations, listOfThemes, listOfCategories, listOfCompetitors);
         }
 
         /// <summary>
@@ -269,6 +241,54 @@ namespace CompetitionGenerator
             return competitors;
         }
 
+        private List<Registration> GenerateRegistrations(List<Competitor> listOfCompetitors, int maxThemeNumberPerCompetitor, int maxCategoryNumberPerCompetitor, int numberOfThemes, List<Theme> listOfThemes, int numberOfCategories, List<string> listOfCategories)
+        {
+            Randomizer rnd = Randomizer.GetInstance();
+            List<Registration> listOfRegistrations = new List<Registration>();
+
+            Console.WriteLine("\nPrijave natjecatelja:");
+            foreach (Competitor competitor in listOfCompetitors)
+            {
+                Console.WriteLine("\nNatjecatelj: " + competitor.Name);
+                int numberOfRegistratedThemes = rnd.GetNumber(1, maxThemeNumberPerCompetitor);
+                List<Theme> listOfRegistratedThemes = new List<Theme>();
+                Console.WriteLine("Registrirane teme:");
+                while (listOfRegistratedThemes.Count < numberOfRegistratedThemes)
+                {
+                    int themeIndex = rnd.GetNumber(0, numberOfThemes);
+                    Theme registratedTheme = listOfThemes[themeIndex];
+                    if (listOfRegistratedThemes.Contains(registratedTheme))
+                        continue;
+                    listOfRegistratedThemes.Add(registratedTheme);
+                    Console.WriteLine(registratedTheme.Name);
+
+                    int numberOfRegistratedCategories = rnd.GetNumber(1, maxCategoryNumberPerCompetitor);
+                    List<string> listOfregistratedCategories = new List<string>();
+                    while (listOfregistratedCategories.Count < numberOfRegistratedCategories)
+                    {
+                        int categoryIndex = rnd.GetNumber(0, numberOfCategories);
+                        string registratedCategory = listOfCategories[categoryIndex];
+                        if (listOfregistratedCategories.Contains(registratedCategory))
+                            continue;
+                        listOfregistratedCategories.Add(registratedCategory);
+                        Console.WriteLine("Kategorija: " + registratedCategory);
+
+                        IFotoaparat camera = GetCamera(registratedCategory);
+                        Console.WriteLine("Koristi fotoaparat: " + camera.GetModelName());
+
+                        Registration registration = new Registration(competitor, registratedTheme, registratedCategory, camera, new Photo());
+                    }
+                }
+            }
+
+            return listOfRegistrations;
+        }
+
+        /// <summary>
+        /// Funkcija koja daje određeni model kamere
+        /// </summary>
+        /// <param name="category">Kategorija kamere</param>
+        /// <returns>Objekt IFotoaparat-a</returns>
         private IFotoaparat GetCamera(string category)
         {
             string directoryLocation = DirectoryLocator.GetDirectory("Cameras", Directory.GetCurrentDirectory(), 0, 3);

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Argument Handling\ArgumentHandler.cs" />
     <Compile Include="Argument Handling\ArgumentObject.cs" />
+    <Compile Include="Competition Handlers\Competition.cs" />
     <Compile Include="Competition Handlers\Competitor.cs" />
     <Compile Include="DirectoryLocator.cs" />
     <Compile Include="Camera Handlers\FotoaparatCompact.cs" />

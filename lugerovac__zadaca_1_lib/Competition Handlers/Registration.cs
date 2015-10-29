@@ -46,12 +46,18 @@ namespace lugerovac__zadaca_1_lib
 
         private bool disqualified;
 
-        public Registration()
+        public Registration(Competitor competitor, Theme theme, string category, IFotoaparat camera, Photo photo)
         {
             RegistrationHandler registrationHandler = RegistrationHandler.GetInstance();
             id = "PRIJAVA " + registrationHandler.Counter.ToString();
             registrationHandler.Counter++;
+
             disqualified = false;
+            this.competitor = competitor;
+            this.theme = theme;
+            this.category = category;
+            this.camera = camera;
+            this.photo = photo;
         }
 
         public void Disqualify()
