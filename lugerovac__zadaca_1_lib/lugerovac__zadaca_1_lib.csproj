@@ -40,25 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentHandler.cs" />
-    <Compile Include="ArgumentObject.cs" />
-    <Compile Include="Competitor.cs" />
+    <Compile Include="Argument Handling\ArgumentHandler.cs" />
+    <Compile Include="Argument Handling\ArgumentObject.cs" />
+    <Compile Include="Competition Handlers\Competitor.cs" />
     <Compile Include="DirectoryLocator.cs" />
-    <Compile Include="FotoaparatCompact.cs" />
-    <Compile Include="FotoaparatDSLR.cs" />
-    <Compile Include="FotoaparatMILC.cs" />
-    <Compile Include="FotoCompetitionModuleLoader.cs" />
-    <Compile Include="IFotoaparat.cs" />
-    <Compile Include="IFotoCompetitionModule.cs" />
-    <Compile Include="Lenses.cs" />
+    <Compile Include="Camera Handlers\FotoaparatCompact.cs" />
+    <Compile Include="Camera Handlers\FotoaparatDSLR.cs" />
+    <Compile Include="Camera Handlers\FotoaparatMILC.cs" />
+    <Compile Include="Module Handlers\FotoCompetitionModuleLoader.cs" />
+    <Compile Include="Camera Handlers\IFotoaparat.cs" />
+    <Compile Include="Module Handlers\IFotoCompetitionModule.cs" />
+    <Compile Include="Camera Handlers\Lenses.cs" />
     <Compile Include="Person.cs" />
-    <Compile Include="Photo.cs" />
+    <Compile Include="Camera Handlers\Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Randomizer.cs" />
-    <Compile Include="Registration.cs" />
-    <Compile Include="RegistrationHandler.cs" />
-    <Compile Include="Theme.cs" />
+    <Compile Include="Competition Handlers\Registration.cs" />
+    <Compile Include="Competition Handlers\RegistrationHandler.cs" />
+    <Compile Include="Competition Handlers\Theme.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

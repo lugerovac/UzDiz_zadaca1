@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace CompetitionGenerator
 {
@@ -91,6 +92,9 @@ namespace CompetitionGenerator
                             continue;
                         listOfregistratedCategories.Add(registratedCategory);
                         Console.WriteLine("Kategorija: " + registratedCategory);
+
+                        IFotoaparat camera = GetCamera(registratedCategory);
+                        Console.WriteLine(camera.GetModelName());
                     }
                 }
             }
@@ -264,5 +268,89 @@ namespace CompetitionGenerator
 
             return competitors;
         }
+
+        private IFotoaparat GetCamera(string category)
+        {
+            string directoryLocation = DirectoryLocator.GetDirectory("Cameras", Directory.GetCurrentDirectory(), 0, 3);
+            if (string.Equals(directoryLocation, "ERROR"))
+            {
+                Console.WriteLine("Ne može se pronaći direktorij s kamerama!");
+            }
+
+            string[] files = Directory.GetFiles(directoryLocation);
+            List<IFotoaparat> cameraList = new List<IFotoaparat>();
+
+            foreach (string file in files)
+            {
+                XmlTextReader reader = new XmlTextReader(file);
+                while (reader.Read())
+                {
+                    if (XmlNodeType.Element == reader.NodeType)
+                    {
+                        reader.MoveToAttribute("type");
+                        string elementType = reader.Value;
+                        if (string.Equals(elementType, category))
+                        {
+                            CameraFactory cameraFactory;
+                            if (string.Equals(category, "DSLR"))
+                            {
+                                cameraFactory = new CreatorDSLR();
+                            }
+                            else if (string.Equals(category, "MILC"))
+                            {
+                                cameraFactory = new CreatorMILC();
+                            }
+                            else
+                            {
+                                cameraFactory = new CreatorCompact();
+                            }
+
+                            IFotoaparat newCamera = cameraFactory.Create();
+                            for (int attInd = 0; attInd < reader.AttributeCount; attInd++)
+                            {
+                                reader.MoveToAttribute(attInd);
+                                newCamera.SetValue(reader.Name, reader.Value);
+                            }
+                            cameraList.Add(newCamera);
+                        }
+                    }
+                }
+            }
+
+            Randomizer rnd = Randomizer.GetInstance();
+            int cameraIndex = rnd.GetNumber(0, cameraList.Count);
+            return cameraList[cameraIndex];
+        }
     }
+
+    #region Factory Method
+    abstract class CameraFactory
+    {
+        public abstract IFotoaparat Create();
+    }
+
+    class CreatorDSLR : CameraFactory
+    {
+        public override IFotoaparat Create()
+        {
+            return new FotoaparatDSLR();
+        }
+    }
+
+    class CreatorMILC : CameraFactory
+    {
+        public override IFotoaparat Create()
+        {
+            return new FotoaparatMILC();
+        }
+    }
+
+    class CreatorCompact : CameraFactory
+    {
+        public override IFotoaparat Create()
+        {
+            return new FotoaparatCompact();
+        }
+    }
+    #endregion
 }

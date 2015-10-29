@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Cameras\Fotoaparati 1.xml" />
     <Content Include="Modules\CompetitionGenerator.dll" />
     <Content Include="Person Names\Name List 1.txt" />
     <Content Include="Person Surnames\Surname List 1.txt" />
