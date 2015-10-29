@@ -71,6 +71,7 @@ namespace CompetitionGenerator
 
             Competition competition = Competition.GetInstance();
             competition.UploadCompetitionData(listOfRegistrations, listOfThemes, listOfCategories, listOfCompetitors);
+            Console.WriteLine("Prihvaćeno " + listOfRegistrations.Count.ToString() + " prijava");
         }
 
         /// <summary>
@@ -277,6 +278,7 @@ namespace CompetitionGenerator
                         Console.WriteLine("Koristi fotoaparat: " + camera.GetModelName());
 
                         Registration registration = new Registration(competitor, registratedTheme, registratedCategory, camera, new Photo());
+                        listOfRegistrations.Add(registration);
                     }
                 }
             }
