@@ -3,7 +3,7 @@
 <Camera name="Sony - Alpha a6000" type="MILC" lensesLength="25" lensesDiameter="14" scaleFactor="1.8" additionalGrip="No" />
 <Camera name="Panasonic LX100" type="Compact" lensesLength="24" lensesDiameter="75" eyepiece="No" />
 <Camera name="Canon - EOS 6D" type="DSLR" lensesLength="50" lensesDiameter="14" scaleFactor="2.8" integratedGrip="No" integratedBlitz="No" cameraStabilizationInBody="No" />
-<Camera name="Sony - Alpha a7" type="MILC" lensesLength="70" lensesDiameter="200" scaleFactor="4" additionalGrip="No" />
+<Camera name="Sony - Alpha a7" type="MILC" lensesLength="70" lensesDiameter="20" scaleFactor="4" additionalGrip="No" />
 <Camera name="Fuji X100T" type="Compact" lensesLength="35" lensesDiameter="35" eyepiece="Yes" />
 <Camera name="Nikon - D5500" type="DSLR" lensesLength="55" lensesDiameter="18" scaleFactor="2.3" integratedGrip="No" integratedBlitz="Yes" cameraStabilizationInBody="Yes" />
 <Camera name="Sony - Alpha a5000" type="MILC" lensesLength="50" lensesDiameter="16" scaleFactor="2.8" additionalGrip="No" />

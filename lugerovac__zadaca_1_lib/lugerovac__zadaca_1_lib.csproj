@@ -49,7 +49,7 @@
     <Compile Include="Camera Handlers\FotoaparatCompact.cs" />
     <Compile Include="Camera Handlers\FotoaparatDSLR.cs" />
     <Compile Include="Camera Handlers\FotoaparatMILC.cs" />
-    <Compile Include="Jury.cs" />
+    <Compile Include="Competition Handlers\Jury.cs" />
     <Compile Include="Module Handlers\FotoCompetitionModuleLoader.cs" />
     <Compile Include="Camera Handlers\IFotoaparat.cs" />
     <Compile Include="Module Handlers\IFotoCompetitionModule.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="ScoreAlgorithms\Factories\ScoringFactory.cs" />
     <Compile Include="ScoreAlgorithms\Factories\SumAllScoresFactory.cs" />
     <Compile Include="ScoreAlgorithms\Factories\ScoreByAverageFactory.cs" />
+    <Compile Include="Competition Handlers\VictoryHandler.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

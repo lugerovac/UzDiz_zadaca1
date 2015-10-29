@@ -46,6 +46,6 @@ namespace lugerovac__zadaca_1_lib
                 }
                 return GetDirectory(directory, newPath, step + 1, maxSteps);
             }
-        }  //GetDirectory
+        } 
     }
 }

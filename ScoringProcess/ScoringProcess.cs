@@ -33,9 +33,14 @@ namespace ScoringProcess
             GenerateScores(listOfRegistrations, jury);
             Dictionary<Registration, float> finalScores = new Dictionary<Registration, float>();
             GenerateFinalScores(listOfRegistrations, finalScores);
+            VictoryProclamation(competition);
         }
 
-        public void Disqualify(List<Registration> listOfRegistrations)
+        /// <summary>
+        /// Diskvalificira slučajno odabrane prijave
+        /// </summary>
+        /// <param name="listOfRegistrations">Lista prijavi</param>
+        void Disqualify(List<Registration> listOfRegistrations)
         {
             Randomizer rnd = Randomizer.GetInstance();
             int counter = 0;
@@ -52,12 +57,16 @@ namespace ScoringProcess
             Console.WriteLine(counter.ToString() + " prijavi je diskvalificirano");
         }
 
-        public List<Jury> GenerateJury()
+        /// <summary>
+        /// Generira članove žiria
+        /// </summary>
+        /// <returns>Lista članova žiria</returns>
+        List<Jury> GenerateJury()
         {
             ArgumentHandler arguments = ArgumentHandler.GetInstance();
             int juryNumber = (int)arguments.GetArgument("JuryNumber");
 
-            #region Pronalazaz direktorija s imenima i prezimenima
+            #region Pronalazak direktorija s imenima i prezimenima
             string namesLocation = DirectoryLocator.GetDirectory("Person Names", Directory.GetCurrentDirectory(), 0, 3);
             string surnamesLocation = DirectoryLocator.GetDirectory("Person Surnames", Directory.GetCurrentDirectory(), 0, 3);
             #endregion
@@ -136,7 +145,12 @@ namespace ScoringProcess
             return jury;
         }
 
-        public void GenerateScores(List<Registration> listOfRegistrations, List<Jury> jury)
+        /// <summary>
+        /// Boduje svaku prijavu
+        /// </summary>
+        /// <param name="listOfRegistrations">Lista prijava</param>
+        /// <param name="jury">Lista članova žiria</param>
+        void GenerateScores(List<Registration> listOfRegistrations, List<Jury> jury)
         {
             Randomizer rnd = Randomizer.GetInstance();
             Console.WriteLine("\nIspis bodova po prijavi:");
@@ -156,7 +170,12 @@ namespace ScoringProcess
             }
         }
 
-        public void GenerateFinalScores(List<Registration> listOfRegistrations, Dictionary<Registration, float> finalScores)
+        /// <summary>
+        /// Generira bodove ovisno o odabranom algoritmu bodovanja
+        /// </summary>
+        /// <param name="listOfRegistrations">Lista prijava</param>
+        /// <param name="finalScores">Rječnik u koji se spremaju finalni bodovi</param>
+        void GenerateFinalScores(List<Registration> listOfRegistrations, Dictionary<Registration, float> finalScores)
         {
             ArgumentHandler arguments = ArgumentHandler.GetInstance();
             string scoringClass = (string)arguments.GetArgument("ScoringClass");
@@ -176,8 +195,148 @@ namespace ScoringProcess
             {
                 float finalScore = scoringAlgorhitm.GenerateScore(registration);
                 finalScores[registration] = finalScore;
-                Console.WriteLine(registration.ID + " by " + registration.Competitor.Name + ": " + finalScore.ToString());
+                Console.WriteLine(registration.ID + " od " + registration.Competitor.Name + ": " + finalScore.ToString());
+                registration.FinalScore = finalScore;
             }
+        }
+
+        /// <summary>
+        /// Funkcija koja proglašava pobjednike i stvara datoteku rezultata
+        /// </summary>
+        /// <param name="competition">Singleton natječaja iz kojeg se vuku podaci</param>
+        void VictoryProclamation(Competition competition)
+        {
+            ArgumentHandler arguments = ArgumentHandler.GetInstance();
+            string resultFileName = (string)arguments.GetArgument("ResultFile");
+            string directoryLocation = DirectoryLocator.GetDirectory("Results", Directory.GetCurrentDirectory(), 0, 3);
+            string resultFile = directoryLocation + "\\" + resultFileName;
+
+            List<string> listOfCategories = competition.DownloadCategories();
+            List<Theme> listOfThemes = competition.DownloadThemess();
+            List<Registration> listOfRegistrations = competition.DownloadRegistrations();
+            List<Competitor> listOfCompetitors = competition.DownloadCompetitors();
+
+            using (StreamWriter sw = new StreamWriter(resultFile))
+            {
+                #region Pobjednici po temama unutar kategorija
+                sw.WriteLine("Pobjednici po temama unutar kategorija".ToUpper());
+                foreach (string category in listOfCategories)
+                {
+                    sw.WriteLine(Indent(0) + "KATEGORIJA " + category + ":");
+                    foreach(Theme theme in listOfThemes)
+                    {
+                        sw.WriteLine(Indent(1) + "TEMA " + theme.Name + ":");
+                        List<Registration> disqualifiedRegistrations = new List<Registration>();
+                        Dictionary<string, float> victoryCandidatesPerTheme = new Dictionary<string, float>();
+                        foreach(Registration registration in listOfRegistrations)
+                        {
+                            if (!string.Equals(registration.Category, category) || !string.Equals(registration.Theme.Name, theme.Name))
+                                continue;
+
+                            if (registration.IsDisqualified())
+                            {
+                                disqualifiedRegistrations.Add(registration);
+                                continue;
+                            }
+
+                            sw.Write(Indent(2) + "NATJECATELJ " + registration.Competitor.Name);
+                            sw.Write(Indent(1) + registration.ID);
+                            foreach(KeyValuePair<string, int> score in registration.GetAllScores())
+                                sw.Write(Indent(1) + score.Key + ": " + score.Value.ToString());
+                            sw.WriteLine(Indent(1) + "UKUPNO: " + registration.FinalScore.ToString());
+
+                            victoryCandidatesPerTheme.Add(registration.Competitor.Name, registration.FinalScore);
+                        }
+                        Dictionary<string, float> victorsPerTheme = VictoryHandler.GetVictors(victoryCandidatesPerTheme);
+                        Console.WriteLine("\nPobjednici u temi " + theme.Name + ", kategorija " + category + ": ");
+                        foreach (KeyValuePair<string, float> score in victorsPerTheme)
+                            Console.WriteLine(score.Key + ": " + score.Value.ToString());
+
+                        sw.WriteLine(Indent(3) + "DISKVALIFICIRANE PRIJAVE");
+                        foreach (Registration disqualifiedRegistration in disqualifiedRegistrations)
+                        {
+                            sw.Write(Indent(4) + disqualifiedRegistration.Competitor.Name);
+                            sw.WriteLine(Indent(1) + disqualifiedRegistration.ID);
+                        }
+                    }
+                }
+                #endregion
+
+                #region Pobjednici po kategorijama
+                sw.WriteLine();
+                sw.WriteLine("Pobjednici po kategorijama".ToUpper());
+                foreach (string category in listOfCategories)
+                {
+                    sw.WriteLine(Indent(0) + "KATEGORIJA " + category + ":");
+                    Dictionary<string, float> victoryCandidatesPerCategory = new Dictionary<string, float>();
+                    foreach (Competitor competitor in listOfCompetitors)
+                    {
+                        sw.WriteLine();
+                        sw.WriteLine(Indent(1) + "NATJECATELJ " + competitor.Name + ":");
+                        float totalScore = 0;
+                        foreach (Registration registration in listOfRegistrations)
+                        {
+                            if (registration.IsDisqualified() || !string.Equals(registration.Category, category) || !string.Equals(registration.Competitor.Name, competitor.Name))
+                                continue;
+
+                            sw.Write(Indent(2) + "TEMA " + registration.Theme.Name);
+                            sw.Write(Indent(2) + "PRIJAVA " + registration.ID);
+                            sw.WriteLine(Indent(2) + "UKUPNI BODOVI " + registration.GetFinalScore().ToString());
+                            totalScore += registration.GetFinalScore();
+                        }
+                        sw.WriteLine(Indent(1) + "UKUPNI BODOVI SVIH PRIJAVA: " + totalScore.ToString());
+                        victoryCandidatesPerCategory.Add(competitor.Name, totalScore);
+                    }
+
+                    Dictionary<string, float> victorsPerCategory = VictoryHandler.GetVictors(victoryCandidatesPerCategory);
+                    Console.WriteLine("\nPobjednici u kategoriji " + category + ": ");
+                    foreach (KeyValuePair<string, float> score in victorsPerCategory)
+                        Console.WriteLine(score.Key + ": " + score.Value.ToString());
+                }
+                #endregion
+
+                #region Ukupni pobjednik
+                sw.WriteLine();
+                sw.WriteLine("Ukupno".ToUpper());
+                Dictionary<string, float> victoryCandidates = new Dictionary<string, float>();
+                foreach (Competitor competitor in listOfCompetitors)
+                {
+                    sw.WriteLine();
+                    sw.WriteLine(Indent(0) + "NATJECATELJ " + competitor.Name + ":");
+                    float globalScore = 0;
+                    foreach(string category in listOfCategories)
+                    {
+                        float totalScore = 0;
+                        foreach (Registration registration in listOfRegistrations)
+                        {
+                            if (!registration.IsDisqualified() && string.Equals(registration.Category, category) && string.Equals(registration.Competitor.Name, competitor.Name))
+                                totalScore += registration.GetFinalScore();
+                        }
+
+                        sw.Write(Indent(2) + category);
+                        sw.WriteLine(Indent(2) + "UKUPNI BODOVI: " + totalScore.ToString());
+                        globalScore += totalScore;
+                    }
+                    sw.WriteLine(Indent(1) + "UKUPNI BODOVI NATJECATELJA: " + globalScore.ToString());
+                    victoryCandidates.Add(competitor.Name, globalScore);
+                }
+
+                Dictionary<string, float> victors = VictoryHandler.GetVictors(victoryCandidates);
+                Console.WriteLine("\nUkupni pobjednici: ");
+                foreach (KeyValuePair<string, float> score in victors)
+                    Console.WriteLine(score.Key + ": " + score.Value.ToString());
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// Funkcija za uređivanje uvlačenja u datoteci
+        /// </summary>
+        /// <param name="count">Razina uvlake</param>
+        /// <returns></returns>
+        public static string Indent(int count)
+        {
+            return "".PadLeft(count*3);
         }
     }
 }

@@ -29,13 +29,13 @@ namespace lugerovac__zadaca_1_lib
         List<ArgumentObject> listOfArguments;
 
         /// <summary>
-        /// Adds to, or modifies in, argument in the list
+        /// Dodaje ili modificra argument u listi
         /// </summary>
-        /// <param name="argName">Name of the argument</param>
-        /// <param name="argType">Type of the argument</param>
-        /// <param name="arg">The argument object</param>
-        /// <param name="overwrite">If exists, should it overwrite the value?</param>
-        /// <returns>True if everything was in order, False if not</returns>
+        /// <param name="argName">Naziv argumenta</param>
+        /// <param name="argType">Tip argumenta</param>
+        /// <param name="arg">Objekt argumenta</param>
+        /// <param name="overwrite">Ako argument postoji, overwritati?</param>
+        /// <returns>True ako ej sve u redu, False ako nije</returns>
         public bool AddArgument(string argName, string argType, Object arg, bool overwrite)
         {
             foreach(ArgumentObject argObject in listOfArguments)
@@ -58,10 +58,10 @@ namespace lugerovac__zadaca_1_lib
         }
 
         /// <summary>
-        /// Allows external classes to find the argument in the list
+        /// Omogućuje vanjskim klasam da dohvate argument
         /// </summary>
-        /// <param name="argName">Name of the argument</param>
-        /// <returns>The argument, the caller will need to cast it</returns>
+        /// <param name="argName">Naziv argumenta</param>
+        /// <returns>Argument koji će pozivatelj morati castati</returns>
         public Object GetArgument(string argName)
         {
             foreach (ArgumentObject argObject in listOfArguments)

@@ -55,7 +55,9 @@
       <Name>lugerovac__zadaca_1_lib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Results\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Cameras\Fotoaparati 1.xml" />
     <Content Include="Modules\CompetitionGenerator.dll" />

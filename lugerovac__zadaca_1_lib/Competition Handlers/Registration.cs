@@ -46,6 +46,13 @@ namespace lugerovac__zadaca_1_lib
 
         private Dictionary<string, int> scores = new Dictionary<string, int>();
 
+        private float finalScore;
+        public float FinalScore
+        {
+            get { return finalScore; }
+            set { finalScore = value; }
+        }
+
         private bool disqualified;
 
         public Registration(Competitor competitor, Theme theme, string category, IFotoaparat camera, Photo photo)
@@ -98,6 +105,11 @@ namespace lugerovac__zadaca_1_lib
         public Dictionary<string, int> GetAllScores()
         {
             return scores;
+        }
+
+        public float GetFinalScore()
+        {
+            return FinalScore;
         }
     }
 }

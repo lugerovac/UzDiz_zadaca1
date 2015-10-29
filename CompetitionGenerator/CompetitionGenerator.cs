@@ -242,6 +242,17 @@ namespace CompetitionGenerator
             return competitors;
         }
 
+        /// <summary>
+        /// Funkcija koja generira prijave
+        /// </summary>
+        /// <param name="listOfCompetitors">Lista natjecatelja</param>
+        /// <param name="maxThemeNumberPerCompetitor">Maksimalni broj tema po natjecatelju</param>
+        /// <param name="maxCategoryNumberPerCompetitor">Maksimalni broj kategorija po natjecatelju</param>
+        /// <param name="numberOfThemes">Broj tema</param>
+        /// <param name="listOfThemes">Lista tema</param>
+        /// <param name="numberOfCategories">Broj kategorija</param>
+        /// <param name="listOfCategories">Lista odabranih kategorija</param>
+        /// <returns>Lista generiranih prijava</returns>
         private List<Registration> GenerateRegistrations(List<Competitor> listOfCompetitors, int maxThemeNumberPerCompetitor, int maxCategoryNumberPerCompetitor, int numberOfThemes, List<Theme> listOfThemes, int numberOfCategories, List<string> listOfCategories)
         {
             Randomizer rnd = Randomizer.GetInstance();
@@ -251,7 +262,11 @@ namespace CompetitionGenerator
             foreach (Competitor competitor in listOfCompetitors)
             {
                 Console.WriteLine("\nNatjecatelj: " + competitor.Name);
-                int numberOfRegistratedThemes = rnd.GetNumber(1, maxThemeNumberPerCompetitor);
+                int numberOfRegistratedThemes;
+                if (maxThemeNumberPerCompetitor < numberOfThemes)
+                    numberOfRegistratedThemes = rnd.GetNumber(1, maxThemeNumberPerCompetitor);
+                else
+                    numberOfRegistratedThemes = rnd.GetNumber(1, numberOfThemes);
                 List<Theme> listOfRegistratedThemes = new List<Theme>();
                 Console.WriteLine("Registrirane teme:");
                 while (listOfRegistratedThemes.Count < numberOfRegistratedThemes)
@@ -263,7 +278,13 @@ namespace CompetitionGenerator
                     listOfRegistratedThemes.Add(registratedTheme);
                     Console.WriteLine(registratedTheme.Name);
 
-                    int numberOfRegistratedCategories = rnd.GetNumber(1, maxCategoryNumberPerCompetitor);
+                    int numberOfRegistratedCategories;
+
+                    if(maxThemeNumberPerCompetitor < numberOfCategories)
+                        numberOfRegistratedCategories = rnd.GetNumber(1, maxCategoryNumberPerCompetitor);
+                    else
+                        numberOfRegistratedCategories = rnd.GetNumber(1, numberOfCategories);
+
                     List<string> listOfregistratedCategories = new List<string>();
                     while (listOfregistratedCategories.Count < numberOfRegistratedCategories)
                     {
