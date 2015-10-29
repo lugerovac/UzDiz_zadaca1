@@ -44,7 +44,7 @@ namespace lugerovac__zadaca_1_lib
             get { return photo; }
         }
 
-        Dictionary<string, int> scores = new Dictionary<string, int>();
+        private Dictionary<string, int> scores = new Dictionary<string, int>();
 
         private bool disqualified;
 
@@ -93,6 +93,11 @@ namespace lugerovac__zadaca_1_lib
             foreach(KeyValuePair<string, int> score in scores)
                 totalScore += score.Value;
             return totalScore;
+        }
+
+        public Dictionary<string, int> GetAllScores()
+        {
+            return scores;
         }
     }
 }

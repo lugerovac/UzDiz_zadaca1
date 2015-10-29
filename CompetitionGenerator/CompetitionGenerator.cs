@@ -315,17 +315,11 @@ namespace CompetitionGenerator
                         {
                             CameraFactory cameraFactory;
                             if (string.Equals(category, "DSLR"))
-                            {
                                 cameraFactory = new CreatorDSLR();
-                            }
                             else if (string.Equals(category, "MILC"))
-                            {
                                 cameraFactory = new CreatorMILC();
-                            }
                             else
-                            {
                                 cameraFactory = new CreatorCompact();
-                            }
 
                             IFotoaparat newCamera = cameraFactory.Create();
                             for (int attInd = 0; attInd < reader.AttributeCount; attInd++)

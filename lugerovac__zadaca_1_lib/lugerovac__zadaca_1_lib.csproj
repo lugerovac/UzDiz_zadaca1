@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Argument Handling\ArgumentHandler.cs" />
     <Compile Include="Argument Handling\ArgumentObject.cs" />
+    <Compile Include="ScoreAlgorithms\BalancedScoring.cs" />
     <Compile Include="Competition Handlers\Competition.cs" />
     <Compile Include="Competition Handlers\Competitor.cs" />
     <Compile Include="DirectoryLocator.cs" />
@@ -60,6 +61,13 @@
     <Compile Include="Competition Handlers\Registration.cs" />
     <Compile Include="Competition Handlers\RegistrationHandler.cs" />
     <Compile Include="Competition Handlers\Theme.cs" />
+    <Compile Include="ScoreAlgorithms\Factories\BalancedScoringFactory.cs" />
+    <Compile Include="ScoreAlgorithms\ScoreAlgorhitm.cs" />
+    <Compile Include="ScoreAlgorithms\SumAllScores.cs" />
+    <Compile Include="ScoreAlgorithms\ScoreByAverage.cs" />
+    <Compile Include="ScoreAlgorithms\Factories\ScoringFactory.cs" />
+    <Compile Include="ScoreAlgorithms\Factories\SumAllScoresFactory.cs" />
+    <Compile Include="ScoreAlgorithms\Factories\ScoreByAverageFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

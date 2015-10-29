@@ -31,6 +31,8 @@ namespace ScoringProcess
             Disqualify(listOfRegistrations);
             List<Jury> jury = GenerateJury();
             GenerateScores(listOfRegistrations, jury);
+            Dictionary<Registration, float> finalScores = new Dictionary<Registration, float>();
+            GenerateFinalScores(listOfRegistrations, finalScores);
         }
 
         public void Disqualify(List<Registration> listOfRegistrations)
@@ -154,5 +156,28 @@ namespace ScoringProcess
             }
         }
 
+        public void GenerateFinalScores(List<Registration> listOfRegistrations, Dictionary<Registration, float> finalScores)
+        {
+            ArgumentHandler arguments = ArgumentHandler.GetInstance();
+            string scoringClass = (string)arguments.GetArgument("ScoringClass");
+
+            ScoringFactory scoringFactory;
+            if (string.Equals(scoringClass, "SumAllScores"))
+                scoringFactory = new SumAllScoresFactory();
+            else if (string.Equals(scoringClass, "BalancedScoring"))
+                scoringFactory = new BalancedScoringFactory();
+            else
+                scoringFactory = new ScoreByAverageFactory();
+
+            ScoreAlgorhitm scoringAlgorhitm = scoringFactory.Create();
+
+            Console.WriteLine("\n\nFinal Scores:");
+            foreach (Registration registration in listOfRegistrations)
+            {
+                float finalScore = scoringAlgorhitm.GenerateScore(registration);
+                finalScores[registration] = finalScore;
+                Console.WriteLine(registration.ID + " by " + registration.Competitor.Name + ": " + finalScore.ToString());
+            }
+        }
     }
 }
