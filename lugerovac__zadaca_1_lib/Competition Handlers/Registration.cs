@@ -44,6 +44,8 @@ namespace lugerovac__zadaca_1_lib
             get { return photo; }
         }
 
+        Dictionary<string, int> scores = new Dictionary<string, int>();
+
         private bool disqualified;
 
         public Registration(Competitor competitor, Theme theme, string category, IFotoaparat camera, Photo photo)
@@ -73,6 +75,24 @@ namespace lugerovac__zadaca_1_lib
         public bool IsDisqualified()
         {
             return disqualified;
+        }
+
+        public void AddScore(string juryMember, int score)
+        {
+            scores[juryMember] = score;
+        }
+
+        public int GetScore(string juryMember)
+        {
+            return scores[juryMember];
+        }
+
+        public int GetTotalScore()
+        {
+            int totalScore = 0;
+            foreach(KeyValuePair<string, int> score in scores)
+                totalScore += score.Value;
+            return totalScore;
         }
     }
 }

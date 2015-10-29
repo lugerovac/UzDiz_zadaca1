@@ -48,6 +48,7 @@
     <Compile Include="Camera Handlers\FotoaparatCompact.cs" />
     <Compile Include="Camera Handlers\FotoaparatDSLR.cs" />
     <Compile Include="Camera Handlers\FotoaparatMILC.cs" />
+    <Compile Include="Jury.cs" />
     <Compile Include="Module Handlers\FotoCompetitionModuleLoader.cs" />
     <Compile Include="Camera Handlers\IFotoaparat.cs" />
     <Compile Include="Module Handlers\IFotoCompetitionModule.cs" />

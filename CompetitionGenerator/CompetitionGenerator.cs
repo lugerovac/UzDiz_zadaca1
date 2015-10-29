@@ -71,7 +71,7 @@ namespace CompetitionGenerator
 
             Competition competition = Competition.GetInstance();
             competition.UploadCompetitionData(listOfRegistrations, listOfThemes, listOfCategories, listOfCompetitors);
-            Console.WriteLine("Prihvaćeno " + listOfRegistrations.Count.ToString() + " prijava");
+            Console.WriteLine("\nPrihvaćeno " + listOfRegistrations.Count.ToString() + " prijava");
         }
 
         /// <summary>
